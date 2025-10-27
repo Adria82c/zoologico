@@ -7,7 +7,7 @@ public class Jaula {
     private String codigoJaula;
     private int capacidadJaula;
     private String tipoJaula;
-    List<Animal> listaAnimales;
+    private List<Animal> listaAnimales;
     
     //constructur
     public Jaula(String codigoJaula, int capacidadJaula, String tipoJaula){
@@ -42,27 +42,24 @@ public class Jaula {
         this.tipoJaula = tipoJaula;
     }
 
-    //adders i deleters para List
+    public List<Animal> getListaAnimales(){
+        return listaAnimales;
+    }
+
+    // Override toString()
+    public String toString(){
+        return  this.codigoJaula + ", capacidad: " + this.capacidadJaula + ", tipo jaula: " + this.tipoJaula + 
+                " contiene: \n"
+                + this.getListaAnimales();
+    }
+
+    // Otros métodos
     public void addAnimal(Animal animal) throws Exception {
-        //CORREGIR
-        for(Animal animalJaula: this.listaAnimales){
-            if (!animal.getEspecie().equals(animalJaula.getEspecie())){
-                throw new Exception("No puedes meter especies diferentes");
-            } else{
-                listaAnimales.add(animal);
-            }
-        }
+        listaAnimales.add(animal);
     }
 
     public void deleteAnimal(Animal animal){
         listaAnimales.remove(animal);
-    }
-
-    /*
-     * Devolver la lista de animales
-     */
-    public List<Animal> getListaAnimales(){
-        return listaAnimales;
     }
 
     public boolean isFull(){
@@ -87,6 +84,8 @@ public class Jaula {
         }
         return especies.toString();
     }
+
+    
 
 
     

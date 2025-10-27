@@ -47,7 +47,11 @@ public class Animal {
         this.peligroso = peligroso;
     }
 
-    
+    public String toString(){
+        
+        String peligroso = (this.isPeligroso()) ? "Es peligroso." : "No es peligroso.";
+        return this.codigoAnimal + ", " + this.nombreAnimal + ", " + this.especie + ", " + peligroso + "\n";
+    }
     
 
     

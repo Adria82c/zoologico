@@ -1,5 +1,5 @@
 package com.zoo.tools;
-import java.io.DataOutputStream;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -28,6 +28,7 @@ public class UtilArchivo {
             FileInputStream fis = new FileInputStream(fileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             zoo = (Zoo) ois.readObject();    
+            ois.close();
         } catch(Exception e){
             return null;
         }

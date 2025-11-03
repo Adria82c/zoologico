@@ -1,9 +1,8 @@
 package com.zoo.model;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 import java.io.Serializable;
-import java.util.ArrayList;
+
 
 public class Zoo implements Serializable { //implementamos esta interfaz para poder serializar, guardar objetos en binario
 

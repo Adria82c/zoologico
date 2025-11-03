@@ -80,10 +80,10 @@ public class Main {
         }
 
         Animal mono1 = new Animal("m001", "Chita", "Chimpancé", false);
-        Animal mono2 = new Animal("m002", "Floquet", "Gorila", false);
+        // Animal mono2 = new Animal("m002", "Floquet", "Gorila", false);
         Animal mono3 = new Animal("m003", "Abú","Chimpancé", true);
         Animal mono4 = new Animal("m004", "Chimpi","Chimpancé", true);
-        Animal mono5 = new Animal("m005", "Pancho","Chimpancé", false);
+        // Animal mono5 = new Animal("m005", "Pancho","Chimpancé", false);
 
         try{
             zoo.addAnimal(mono1, jaulaMonos);

@@ -2,9 +2,10 @@ package com.zoo.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Zoo {
+public class Zoo implements Serializable { //implementamos esta interfaz para poder serializar, guardar objetos en binario
 
     private Map<String, Animal> allAnimalsMap;
     private Map<String, Jaula> allJaulasMap;
@@ -32,7 +33,7 @@ public class Zoo {
         return allJaulasMap;
     }
     // Override toString()
-    public String toString(){ //CORREGIR
+    public String toString(){ 
         return this.nombreZoo + "\n" 
         + ", --- LISTADO DE JAULAS ---\n"
         + showJaulas();
@@ -67,17 +68,26 @@ public class Zoo {
                 throw new Exception("El animal es de otra especie de los de la jaula");
             }
         }
-        jaula.addAnimal(animal);
+        jaula.addAnimalToJaula(animal);
         
         allAnimalsMap.put(animal.getCodigoAnimal(), animal);
     }
 
-    public List<Jaula> showJaulas(){ //CORREGIR
-        List<Jaula> list = new ArrayList<>();
-        for (Map.Entry<String,Jaula> entry : this.allJaulasMap.entrySet()){
+    // public List<Jaula> showJaulas(){ 
+    //     List<Jaula> list = new ArrayList<>();
+    //     for (Map.Entry<String,Jaula> entry : this.allJaulasMap.entrySet()){
+    //         Jaula jaula = entry.getValue();
+    //         list.add(jaula);
+    //     }
+    //     return list;
+    // }
+
+    public String showJaulas(){
+        String result = "";
+        for (Map.Entry<String, Jaula> entry: this.allJaulasMap.entrySet()){
             Jaula jaula = entry.getValue();
-            list.add(jaula);
+            result += jaula + "\n"; // al sacar el objeto busca el toString() de jaula y devuelve cadena
         }
-        return list;
+        return result;
     }
 }

@@ -1,6 +1,8 @@
 package com.zoo.model;
 
-public class Animal {
+import java.io.Serializable;
+
+public class Animal implements Serializable {
 
     private String codigoAnimal;
     private String nombreAnimal;

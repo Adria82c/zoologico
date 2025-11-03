@@ -1,22 +1,71 @@
 package com.zoo;
 import com.zoo.model.*;
+import com.zoo.tools.UtilArchivo;
+
 import java.util.Map;
 
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("--Bienvenido al Zoo--");
-        Zoo zoo = crearZoo();
-        mostrarListadoAnimales(zoo);
+        Zoo zoo = UtilArchivo.recuperarZoologico("Zoo_Emporda.bin");
+        
+        // Si no ha podido recuperar el Zoo, lo crea
+        if (zoo == null){ 
+            zoo = crearZoo();
+        }
+        // Mostramos los nombres de los animales del zoo
+        getAnimales(zoo);
+
+        // Mostrar los códigos de las jaulas
+        getJaulas(zoo);
+
+        // Creamos un animal y una jaula
+        Animal animal = new Animal("coco1", "Lagarto Guanxo", "Cocodrilo", true);        
+        Jaula jaula = new Jaula("jaulaLagartos01", "Jaula Cocodrilos", 10, "reptiles");
+        
+        // Intentamos añadir la jaula al zoo y el animal a la jaula.
+        try{
+            zoo.addJaula(jaula); // Si el objeto zoo ya contiene esa jaula, el método corta (no añade Jaula) y lanza excepcion que capturamos
+            zoo.addAnimal(animal, jaula); // Este método ya no se ejecuta si con el anterior saltó excepción        
+        } catch(Exception e){
+            System.out.println("ERROR " + e.getMessage()); // Con la excepción capturada, mostramos el mensaje lanzado de error.
+        }
+
+        // Mostramos el listado 
+        mostrarListadoAnimales(zoo);      
+        Map<String,Jaula> jaulas = zoo.getAllJaulasMap();
+        for (Map.Entry<String, Jaula> entry : jaulas.entrySet()){
+            System.out.println(entry.getKey() + " especies: " + entry.getValue().getEspecieEnjaulada());
+        }
+        // Guardar el Zoo al acabar el programa
+        UtilArchivo.guardarZoologico(zoo, "Zoo_Emporda.bin");
+    }
+
+
+    private static void getJaulas(Zoo zoo) {
+        System.out.println("\n=== JAULAS DEL ZOO ===");
+        Map<String, Jaula> jaulas = zoo.getAllJaulasMap();
+        for (Map.Entry<String, Jaula> entry: jaulas.entrySet()){
+            System.out.println(entry.getValue().getNombreJaula());
+        }
+    }
+
+    private static void getAnimales(Zoo zoo) {
+        System.out.println("\n=== NOMBRES DE LOS ANIMALES DEL ZOO ===");
+        Map<String, Animal> animales = zoo.getAllAnimalsMap();
+        for (Map.Entry<String, Animal> entry: animales.entrySet()){
+            System.out.println(entry.getValue().getNombreAnimal());
+        }
     }
 
     public static Zoo crearZoo(){
 
         boolean valido = true;
         Zoo zoo = new Zoo("Zoo Empordà");
-        Jaula jaulaMonos = new Jaula("jMonos01", 3, "primates");
-        Jaula jaulaTigres = new Jaula("jaulaTigre01", 5, "felinos");
-        Jaula jaulaCocodrilos = new Jaula("jaulaCocodrilos01", 7, "reptiles");
+        Jaula jaulaMonos = new Jaula("jaulaMonos01", "Jaula Monos", 3, "primates");
+        Jaula jaulaTigres = new Jaula("jaulaTigre01", "Jaula Tigres",5, "felinos");
+        Jaula jaulaCocodrilos = new Jaula("jaulaCocodrilos01", "Jaula Cocodrilos", 7, "reptiles");
 
 
         try{
@@ -56,10 +105,10 @@ public class Main {
         return zoo; 
     }
 
-    public static void mostrarListadoAnimales(Zoo zoo){ //CORREGIR: PONDRIA ESTE METODO EN CLASE ZOO. QUÉ PASARIA CON EL STATIC, COMO LO LLAMAMOS?
+    public static void mostrarListadoAnimales(Zoo zoo){ 
         Map<String,Animal> animalMap = zoo.getAllAnimalsMap();
         
-        System.out.println("--- LISTADO DE TODOS LOS ANIMALES de " + zoo.getNombreZoo() + " ---");
+        System.out.println("===LISTADO DE TODOS LOS ANIMALES de " + zoo.getNombreZoo() + "===");
         for (Map.Entry<String, Animal> entry : animalMap.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }

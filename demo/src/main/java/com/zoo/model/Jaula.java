@@ -1,17 +1,20 @@
 package com.zoo.model;
 import java.util.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Jaula {
+public class Jaula implements Serializable {
 
     private String codigoJaula;
+    private String nombreJaula;
     private int capacidadJaula;
     private String tipoJaula;
     private List<Animal> listaAnimales;
     
     //constructur
-    public Jaula(String codigoJaula, int capacidadJaula, String tipoJaula){
+    public Jaula(String codigoJaula, String nombreJaula, int capacidadJaula, String tipoJaula){
         this.codigoJaula = codigoJaula;
+        this.nombreJaula = nombreJaula;
         this.capacidadJaula = capacidadJaula;
         this.tipoJaula = tipoJaula;
         this.listaAnimales = new ArrayList<>();
@@ -24,6 +27,15 @@ public class Jaula {
 
     public int getCapacidadJaula(){
         return capacidadJaula;
+    }
+
+
+    public String getNombreJaula() {
+        return nombreJaula;
+    }
+
+    public void setNombreJaula(String nombreJaula) {
+        this.nombreJaula = nombreJaula;
     }
 
     public String getTipoJaula(){
@@ -45,20 +57,30 @@ public class Jaula {
     public List<Animal> getListaAnimales(){
         return listaAnimales;
     }
-
-    // Override toString()
+    
+    //Override
     public String toString(){
-        return  this.codigoJaula + ", capacidad: " + this.capacidadJaula + ", tipo jaula: " + this.tipoJaula + 
-                " contiene: \n"
-                + this.getListaAnimales();
+        String result = this.nombreJaula + ":\n"
+            + "código: " + this.codigoJaula + "\t"
+            + ", capacidad: " + this.capacidadJaula + "\t"
+            + ", tipo jaula: " + this.tipoJaula + "\t";
+        if (this.listaAnimales.isEmpty()){
+            result += "\nLa jaula está vacía\n";
+        }else{
+            result += " contiene: \n";
+            for (Animal animal: this.listaAnimales){
+                result += animal + "\n";
+            }
+        }
+        return result;
     }
 
     // Otros métodos
-    public void addAnimal(Animal animal) throws Exception {
+    public void addAnimalToJaula(Animal animal) throws Exception {
         listaAnimales.add(animal);
     }
 
-    public void deleteAnimal(Animal animal){
+    public void deleteAnimalToJaula(Animal animal){
         listaAnimales.remove(animal);
     }
 
@@ -74,21 +96,14 @@ public class Jaula {
 
     /*
      * Devuelve las especies de los animales de la lista
-     * CORREGIR
      */
-    public String getEspecieEnjaulada(){
-        
+    public String getEspecieEnjaulada(){   
         StringBuilder especies = new StringBuilder();
-        for (Animal animal : listaAnimales){
-            especies.append(animal.getEspecie());
+        if (this.listaAnimales.isEmpty()){
+            especies.append("La jaula está vacía");
+        }else{
+            especies.append(listaAnimales.get(0).getEspecie());
         }
         return especies.toString();
     }
-
-    
-
-
-    
-
-
 }

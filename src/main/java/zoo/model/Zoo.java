@@ -1,4 +1,4 @@
-package com.zoo.model;
+package zoo.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.Serializable;

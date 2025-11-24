@@ -1,4 +1,4 @@
-package com.zoo.model;
+package zoo.model;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;

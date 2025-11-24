@@ -1,11 +1,11 @@
-package com.zoo.tools;
+package zoo.tools;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.zoo.model.Zoo;
+import zoo.model.Zoo;
 
 public class UtilArchivo {
     

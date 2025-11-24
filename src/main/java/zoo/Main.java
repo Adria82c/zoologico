@@ -1,6 +1,7 @@
-package com.zoo;
-import com.zoo.model.*;
-import com.zoo.tools.UtilArchivo;
+package zoo;
+
+import zoo.model.*;
+import zoo.tools.UtilArchivo;
 
 import java.util.Map;
 

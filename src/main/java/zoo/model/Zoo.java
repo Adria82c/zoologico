@@ -31,6 +31,10 @@ public class Zoo implements Serializable { //implementamos esta interfaz para po
     public Map<String, Jaula> getAllJaulasMap(){
         return allJaulasMap;
     }
+
+    public Jaula getJaulaFromZoo(String codigoJaula){
+        return allJaulasMap.get(codigoJaula);
+    }
     // Override toString()
     public String toString(){ 
         return this.nombreZoo + "\n" 

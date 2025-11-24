@@ -4,23 +4,143 @@ import zoo.model.*;
 import zoo.tools.UtilArchivo;
 
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class Main {
+
+    private static Scanner scan = new Scanner(System.in);
+
     public static void main(String[] args) {
         System.out.println("--Bienvenido al Zoo--");
-        Zoo zoo = UtilArchivo.recuperarZoologico("Zoo_Emporda.bin");
+        // Zoo zoo = UtilArchivo.recuperarZoologico("Zoo_Emporda.bin");
         
         // Si no ha podido recuperar el Zoo, lo crea
-        if (zoo == null){ 
-            zoo = crearZoo();
+        // if (zoo == null){ 
+        //     zoo = crearZoo();
         }
         // Mostramos los nombres de los animales del zoo
-        getAnimales(zoo);
+        // getAnimales(zoo);
 
         // Mostrar los códigos de las jaulas
-        getJaulas(zoo);
+        // getJaulas(zoo);
 
+        // datosPrueba(zoo);
+
+        // interfaz
+        Zoo zoo;
+        gestionZoo(zoo);
+       
+        // Guardar el Zoo al acabar el programa
+        // UtilArchivo.guardarZoologico(zoo, "Zoo_Emporda.bin");
+    }
+
+    private static void gestionZoo(Zoo zoo){
+        boolean salir = false;
+        int option;
+        do{
+            option = menu();
+            switch (option){
+                case 1 : crearJaula(zoo);
+                break;
+                case 2 : crearAnimal(zoo);
+                break;
+                case 3 : getJaulas(zoo);
+                break;
+                case 4: getAnimales(zoo);
+                break;
+                case 5: saveFile(zoo);
+                break;
+                case 6: openFile();
+                break;
+                case 0 : salir = true;
+                break;
+                default : System.out.println("Opcion incorrecta");
+            }
+
+        } while(!salir);
+    }
+
+    private static void saveFile(Zoo zoo){
+        System.out.println("Qué nombre quiere dar al archivo?: ");
+        String fileName = scan.nextLine();
+        boolean success = UtilArchivo.guardarZoologico(zoo, fileName);;
+        if(success){
+            System.out.println("Archivo guardado con éxito");
+        }else {
+            System.out.println("Error al guardar el archivo");
+        }
+    }
+
+    private static Zoo openFile(){
+        System.out.println("¿Qué archivo desea abrir?: ");
+        String fileName = scan.nextLine();
+        Zoo zoo = UtilArchivo.recuperarZoologico(fileName);
+        return zoo;
+    }
+
+    private static void crearAnimal(Zoo zoo){
+        System.out.println("Introduzca el código del Animal: ");
+        String idAnimal = scan.nextLine();
+        System.out.println("Introduzca el nombre del Animal: ");
+        String nombreAnimal = scan.nextLine();
+        System.out.println("Introduzca la especie del Animal: ");
+        String especieAnimal = scan.nextLine();
+        System.out.println("Es peligroso? (s/n): ");
+        String peligroso = scan.nextLine();
+        Boolean isPeligroso = (peligroso == "s" || peligroso == "S");
+        Animal animal = new Animal(idAnimal, nombreAnimal, especieAnimal, isPeligroso);
+
+        System.out.println("Indique el código de la jaula donde va el animal: ");
+        String codigoJaula = scan.nextLine();
+        Jaula jaula = zoo.getJaulaFromZoo(codigoJaula);
+
+        try {
+            zoo.addAnimal(animal, jaula);
+        } catch (Exception e) {
+            System.out.println("Error al meter el animal: " + e.getMessage());
+        }
+
+    }
+
+    private static void crearJaula(Zoo zoo){
+        System.out.println("Introduzca el código de la Jaula: ");
+        String idJaula = scan.nextLine();
+        System.out.println("Introduzca el nombre de la Jaula: ");
+        String nombreJaula = scan.nextLine();
+        System.out.println("Introduzca la capacidad de la Jaula (entero): ");
+        int capacidadJaula = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Introduzca el tipo de jaula: ");
+        String tipoJaula = scan.nextLine();
+
+        Jaula jaula = new Jaula(idJaula, nombreJaula, capacidadJaula, tipoJaula);
+        try {
+            zoo.addJaula(jaula);
+        } catch (Exception e) {
+            System.out.println("Error al crear la jaula: " + e.getMessage());
+        }
+    }
+
+    private static int menu(){
+        
+        System.out.println( """
+            1 - CREAR JAULA\n
+            2 - CREAR ANIMAL\n
+            3 - LISTAR JAULAS\n
+            4 - LISTAR ANIMALES\n
+            5 - GUARDAR ZOO\n
+            6 - ABRIR ZOO\n
+            0 - SALIR\n                
+        """);
+        System.out.println("Seleccione una opción: ");
+        int option = scan.nextInt();
+        scan.nextLine();
+        return option;
+    }
+
+    private static void datosPrueba(Zoo zoo){
+         
         // Creamos un animal y una jaula
         Animal animal = new Animal("coco1", "Lagarto Guanxo", "Cocodrilo", true);        
         Jaula jaula = new Jaula("jaulaLagartos01", "Jaula Cocodrilos", 10, "reptiles");
@@ -39,10 +159,7 @@ public class Main {
         for (Map.Entry<String, Jaula> entry : jaulas.entrySet()){
             System.out.println(entry.getKey() + " especies: " + entry.getValue().getEspecieEnjaulada());
         }
-        // Guardar el Zoo al acabar el programa
-        UtilArchivo.guardarZoologico(zoo, "Zoo_Emporda.bin");
     }
-
 
     private static void getJaulas(Zoo zoo) {
         System.out.println("\n=== JAULAS DEL ZOO ===");

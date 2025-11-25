@@ -9,11 +9,21 @@ public class Zoo implements Serializable { //implementamos esta interfaz para po
     private Map<String, Animal> allAnimalsMap;
     private Map<String, Jaula> allJaulasMap;
     private String nombreZoo;
+    private String sourceFileName = null;
 
     public Zoo(String nombreZoo){
         this.nombreZoo = nombreZoo;
         allAnimalsMap = new HashMap<>();
         allJaulasMap = new HashMap<>();
+        this.sourceFileName = "";
+    }
+
+    public String getSourceFileName(){
+        return sourceFileName;
+    }
+
+    public void setSourceFileName(String sourceFileName){
+        this.sourceFileName = sourceFileName;
     }
 
     public String getNombreZoo() {

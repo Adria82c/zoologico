@@ -22,6 +22,7 @@ public class UtilArchivo {
         return true;
     }
 
+
     public static Zoo recuperarZoologico(String fileName){
         Zoo zoo;
         try{
@@ -30,8 +31,10 @@ public class UtilArchivo {
             zoo = (Zoo) ois.readObject();    
             ois.close();
         } catch(Exception e){
+            System.out.println("El zoo " + fileName + " no ha podido cargarse: " + e.getMessage());
             return null;
         }
+        System.out.println("El zoo " + fileName + " ha sido cargado con éxito.");
         return zoo;
     }
 }

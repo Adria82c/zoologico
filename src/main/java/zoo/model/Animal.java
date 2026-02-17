@@ -54,8 +54,19 @@ public class Animal implements Serializable {
         String peligroso = (this.isPeligroso()) ? "Es peligroso." : "No es peligroso.";
         return this.codigoAnimal + ", " + this.nombreAnimal + ", " + this.especie + ", " + peligroso + "\n";
     }
-    
 
+    public String getAnimalCSV(){
+        String csv = "";
+        csv += this.codigoAnimal + ";";
+        csv += this.nombreAnimal + ";";
+        csv += this.especie + ";";
+        csv += this.peligroso + "\n";
+
+        return csv;
+    }
+
+
+    
     
 
 

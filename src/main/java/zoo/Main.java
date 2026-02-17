@@ -66,12 +66,111 @@ public class Main {
                 break;
                 case 7 : nuevoZoo();
                 break;
+                case 8 : exportarZoo();
+                break;
+                case 9 : importarZoo();
+                break;
                 case 0 : salir = true;
                 break;
                 default : System.out.println("Opcion incorrecta");
             }
 
         } while(!salir);
+    }
+
+    private static void exportarZoo(){
+        System.out.println( 
+            """
+                EXPORTAR:
+                1 - EXPORTAR ANIMALES
+                2 - EXPORTAR JAULAS
+                0 - VOLVER
+                
+                Introduzca opción: 
+                    """);
+        int option = scan.nextInt();
+        scan.nextLine();
+        switch (option) {
+            case 1:
+                exportarAnimales();
+                break;
+            case 2:
+                exportarJaulas();
+                break;
+            case 0:
+                break;    
+            default:
+                System.out.println("Opción errónea.");
+                break;
+        }             
+    }
+    
+    private static void importarZoo(){
+        System.out.println( 
+            """
+                IMPORTAR:
+                1 - IMPORTAR ANIMALES
+                2 - IMPORTAR JAULAS
+                0 - VOLVER
+                
+                Introduzca opción: 
+                    """);
+        int option = scan.nextInt();
+        scan.nextLine();
+        switch (option) {
+            case 1:
+                importarAnimales();
+                break;
+            case 2:
+                importarJaulas();
+                break;
+            case 0:
+                break;    
+            default:
+                System.out.println("Opción errónea.");
+                break;
+        }
+                    
+    }
+
+    private static void exportarAnimales(){
+        if (!existeZoo()){
+            return;
+        }
+
+        System.out.println("Introduzca el nombre del archivo");
+        String fileName = scan.nextLine();
+        UtilArchivo.guardarAnimalesCSV(zoo, fileName + ".csv");
+    }
+
+    private static void exportarJaulas(){
+        if (!existeZoo()){
+            return;
+        }
+
+        System.out.println("Introduzca el nombre del archivo");
+        String fileName = scan.nextLine();
+        UtilArchivo.guardarJaulasCSV(zoo, fileName + ".csv");
+    }
+
+    private static void importarAnimales(){
+        if (!existeZoo()){
+            return;
+        }
+
+        System.out.println("Introduzca el nombre del archivo");
+        String fileName = scan.nextLine();
+        UtilArchivo.abrirAnimalesCSV(zoo, fileName + ".csv");
+    }
+
+    private static void importarJaulas(){
+        if (!existeZoo()){
+            return;
+        }
+
+        System.out.println("Introduzca el nombre del archivo");
+        String fileName = scan.nextLine();
+        UtilArchivo.abrirJaulasCSV(zoo, fileName + ".csv");
     }
 
     private static void nuevoZoo(){
@@ -81,6 +180,7 @@ public class Main {
         hayCambios = false;
 
     }
+
     private static void saveFile(){
     //     String fileName = zoo.getSourceFileName();
     //     if (fileName == null || fileName.isEmpty()){
@@ -189,6 +289,8 @@ public class Main {
             5 - GUARDAR ZOO
             6 - ABRIR ZOO
             7 - NUEVO ZOO
+            8 - EXPORTAR CSV
+            9 - IMPORTAR CSV
             0 - SALIR              
         """);
         System.out.println("Seleccione una opción: ");
@@ -226,7 +328,8 @@ public class Main {
         System.out.println("\n=== JAULAS DEL ZOO ===");
         Map<String, Jaula> jaulas = zoo.getAllJaulasMap();
         for (Map.Entry<String, Jaula> entry: jaulas.entrySet()){
-            System.out.println(entry.getValue().getNombreJaula());
+            System.out.print(entry.getValue().getNombreJaula() + " - ");
+            System.out.println(entry.getKey());
         }
     }
 
@@ -303,4 +406,5 @@ public class Main {
         }
         return true;
     }
+
 }

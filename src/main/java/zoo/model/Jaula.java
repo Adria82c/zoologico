@@ -75,6 +75,16 @@ public class Jaula implements Serializable {
         return result;
     }
 
+    public String getJaulaCSV(){
+        String csv = "";
+        csv += this.codigoJaula + ";";
+        csv += this.nombreJaula + ";";
+        csv += this.capacidadJaula + ";";
+        csv += this.tipoJaula + "\n";
+        return csv;
+    }
+
+
     // Otros métodos
     public void addAnimalToJaula(Animal animal) throws Exception {
         listaAnimales.add(animal);

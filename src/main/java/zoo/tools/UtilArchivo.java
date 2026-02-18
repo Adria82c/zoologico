@@ -105,9 +105,19 @@ public class UtilArchivo {
             Map <String,Jaula> jaulas = zoo.getAllJaulasMap();
             BufferedReader br = new BufferedReader(fr);
             // FALTA LEER LAS JAULAS. si cada jaula tiene una lista de animales, ¿cómo sabemos qué animales están en cada jaula? ¿Habría que añadir el código de la jaula a cada animal en el CSV de animales?
-            
-            br.readLine();
-            fr.close(); // CERRAMOS BR O FR? O AMBOS?
+            for (String line = br.readLine(); line != null; line = br.readLine()){
+                String[] lineSplit = line.split(";");
+                Jaula jaula = new Jaula(lineSplit[0], lineSplit[1], Integer.parseInt(lineSplit[2]), lineSplit[3]);
+                // verificamos si la nueva jaula está presente en el mapa de jaulas del zoo, si es así, no la añadimos y mostramos un mensaje de error, si no, la añadimos al mapa de jaulas del zoo.
+                if (jaulas.containsKey(lineSplit[0])){
+                    System.out.println("Jaula " + lineSplit[1] + " no añadida. Código de jaula " + lineSplit[0] + " repetido.");
+                    continue; // no return false porque queremos seguir leyendo el resto de jaulas, aunque esta no se añada.
+                }
+                jaulas.put(lineSplit[0], jaula); 
+                System.out.println("Jaula " + jaula.getNombreJaula() + " añadida.");
+            }
+            br.close();
+            fr.close();
         } catch(Exception e){
             return false;
         }

@@ -317,6 +317,8 @@ public class Main {
             7 - NUEVO ZOO
             8 - EXPORTAR CSV
             9 - IMPORTAR CSV
+            10 - EXPORTAR JSON
+            11 - IMPORTAR JSON
             0 - SALIR              
         """);
         System.out.println("Seleccione una opción: ");

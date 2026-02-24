@@ -123,4 +123,40 @@ public class UtilArchivo {
         }
         return true;
     }
+
+    public static boolean guardarZoologicoJSON(Zoo zoo, String fileName){
+        try{
+            FileWriter fw = new FileWriter(fileName);
+            Gson gson = new Gson();
+            String zooJson = gson.toJson(zoo);
+            fw.write(zooJson);
+            fw.close();
+        } catch(Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    public static Zoo recuperarZoologicoJSON(String fileName){
+        Zoo zoo;
+        try{
+            FileReader fr = new FileReader(fileName);
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while((line = br.readLine()) != null){
+                sb.append(line);
+            }
+            String zooJson = sb.toString();
+            Gson gson = new Gson();
+            zoo = gson.fromJson(zooJson, Zoo.class);
+            br.close();
+            fr.close();
+        } catch(Exception e){
+            System.out.println("El zoo " + fileName + " no ha podido cargarse: " + e.getMessage());
+            return null;
+        }
+        System.out.println("El zoo " + fileName + " ha sido cargado con éxito.");
+        return zoo;
+    }
 }

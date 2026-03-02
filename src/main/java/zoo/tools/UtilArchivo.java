@@ -9,8 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
-
-
+import com.google.gson.Gson;
+ 
 import zoo.model.Zoo;
 import zoo.model.Animal;
 import zoo.model.Jaula;
@@ -125,5 +125,28 @@ public class UtilArchivo {
             return false;
         }
         return true;
+    }
+
+    public static Zoo recuperarZoologicoJSON(String fileName){
+        Zoo zoo;
+        try{
+            FileReader fr = new FileReader(fileName);
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while((line = br.readLine()) != null){
+                sb.append(line);
+            }
+            String zooJson = sb.toString();
+            Gson gson = new Gson();
+            zoo = gson.fromJson(zooJson, Zoo.class);
+            br.close();
+            fr.close();
+        } catch(Exception e){
+            System.out.println("El zoo " + fileName + " no ha podido cargarse: " + e.getMessage());
+            return null;
+        }
+        System.out.println("El zoo " + fileName + " ha sido cargado con éxito.");
+        return zoo;
     }
 }

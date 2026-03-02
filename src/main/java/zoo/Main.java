@@ -70,12 +70,38 @@ public class Main {
                 break;
                 case 9 : importarZoo();
                 break;
+                case 10 : exportarZooJSON();
+                break;
+                case 11 : importarZooJSON();
+                break;
                 case 0 : salir = true;
                 break;
                 default : System.out.println("Opcion incorrecta");
             }
 
         } while(!salir);
+    }
+
+    private static void exportarZooJSON() {
+        if (!existeZoo()){
+            return;
+        }
+
+        System.out.println("Introduzca el nombre del archivo");
+        String fileName = scan.nextLine();
+        UtilArchivo.guardarZoologicoJSON(zoo, fileName + ".json");
+    }
+
+    private static void importarZooJSON() {
+        System.out.println("Introduzca el nombre del archivo");
+        String fileName = scan.nextLine();
+        Zoo newZoo = UtilArchivo.recuperarZoologicoJSON(fileName + ".json");
+        if (newZoo != null){
+            zoo = newZoo;
+            System.out.println("Nuevo Zoo " + zoo.getNombreZoo() + " cargado con éxito.");
+        } else {
+            System.out.println("No pudo abrirse el archivo seleccionado.");
+        }
     }
 
     private static void exportarZoo(){
@@ -291,6 +317,8 @@ public class Main {
             7 - NUEVO ZOO
             8 - EXPORTAR CSV
             9 - IMPORTAR CSV
+            10 - EXPORTAR JSON
+            11 - IMPORTAR JSON
             0 - SALIR              
         """);
         System.out.println("Seleccione una opción: ");

@@ -109,6 +109,7 @@ public class UtilArchivo {
         }
         return true;
     }
+
     public static boolean abrirJaulasCSV(Zoo zoo, String fileName){
         try{
             FileReader fr = new FileReader(fileName);
@@ -148,5 +149,18 @@ public class UtilArchivo {
         }
         System.out.println("El zoo " + fileName + " ha sido cargado con éxito.");
         return zoo;
+    }
+
+    public static boolean guardarZoologicoJSON(Zoo zoo, String fileName){
+        try{
+            FileWriter fw = new FileWriter(fileName);
+            Gson gson = new Gson();
+            String zooJson = gson.toJson(zoo);
+            fw.write(zooJson);
+            fw.close();
+        } catch(Exception e){
+            return false;
+        }
+        return true;
     }
 }

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -45,13 +46,29 @@ public class UtilArchivo {
         return zoo;
     }
 
+/*
+1,jaula de monos
+    m1,chita
+    m2,kingkong
+    m3,abu
+2,jaula de tigres
+    t1,tigreton
+    t2,tigresa
+ */
+
     public static boolean guardarAnimalesCSV(Zoo zoo, String fileName){
         try{
             FileWriter fw = new FileWriter(fileName);
-            Map <String,Animal> animales = zoo.getAllAnimalsMap();
-            for (Animal animal : animales.values()){
-                fw.write(animal.getAnimalCSV());
-            }
+            Map<String,Jaula> jaulasZoo = zoo.getAllJaulasMap();
+            for (Map.Entry<String,Jaula> entryJaula : jaulasZoo.entrySet()){
+                String codigoJaula = entryJaula.getKey();
+                Jaula jaula = entryJaula.getValue();
+                ArrayList<Animal> animalesJaula = (ArrayList<Animal>) jaula.getListaAnimales();
+                for(Animal animal : animalesJaula){
+                    String csvLine = codigoJaula + ";" + animal.getAnimalCSV();
+                    fw.write(csvLine);
+                }
+            }          
             fw.close();
         } catch(Exception e){
             return false;
@@ -76,22 +93,15 @@ public class UtilArchivo {
         try{
             FileReader fr = new FileReader(fileName);
             BufferedReader br = new BufferedReader(fr);
-            Map<String,Animal> animales = zoo.getAllAnimalsMap();
-            while(br.readLine() != null){
+            String animalLine = br.readLine();
+            while(animalLine != null){
                 String[] line = br.readLine().split(";");
-                for (String codigoAnimal: animales.keySet()){ // 
-                    boolean codigoRepetido = codigoAnimal.equals(line[0]);
-                    if (codigoRepetido){
-                        System.out.println("Animal " + line[1] + " no añadido. Código de animal " + line[0] + " repetido.");
-                        break; // no return false porque queremos seguir leyendo el resto de animales, aunque este no se añada.
-                    }
-                }
-                Animal animal = new Animal(line[0], line[1], line[2], Boolean.parseBoolean(line[3]));
-                animales.put(line[0], animal);
-                System.out.println("Animal " + animal.getNombreAnimal() + " añadido.");
-            }
-            
-            br.readLine();
+                String codigoJaula = line[0];
+                Animal animal = new Animal(line[1], line[2], line[3], Boolean.parseBoolean(line[4]));
+                Jaula jaula = zoo.getJaulaFromZoo(codigoJaula);
+                jaula.addAnimalToJaula(animal);
+                animalLine = br.readLine();
+            }    
             br.close();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -102,12 +112,15 @@ public class UtilArchivo {
     public static boolean abrirJaulasCSV(Zoo zoo, String fileName){
         try{
             FileReader fr = new FileReader(fileName);
-            Map <String,Jaula> jaulas = zoo.getAllJaulasMap();
             BufferedReader br = new BufferedReader(fr);
-            // FALTA LEER LAS JAULAS. si cada jaula tiene una lista de animales, ¿cómo sabemos qué animales están en cada jaula? ¿Habría que añadir el código de la jaula a cada animal en el CSV de animales?
-            
-            br.readLine();
-            fr.close(); // CERRAMOS BR O FR? O AMBOS?
+            String line = br.readLine();
+            while(line != null){
+                String[] v = line.split(";");
+                Jaula jaula = new Jaula(v[0], v[1], Integer.parseInt(v[2]), v[3]);
+                zoo.addJaula(jaula);
+                line = br.readLine(); // leer la siguiente línea para que el while no se quede en un bucle infinito. Si no, el while se quedaría leyendo la misma línea una y otra vez, porque no avanzaría a la siguiente línea.
+            }            
+            br.close(); // Cerrando el buffer se cierra el filereader
         } catch(Exception e){
             return false;
         }

@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
  
 import zoo.model.Zoo;
 import zoo.model.Animal;
@@ -45,16 +46,6 @@ public class UtilArchivo {
         System.out.println("El zoo " + fileName + " ha sido cargado con éxito.");
         return zoo;
     }
-
-/*
-1,jaula de monos
-    m1,chita
-    m2,kingkong
-    m3,abu
-2,jaula de tigres
-    t1,tigreton
-    t2,tigresa
- */
 
     public static boolean guardarAnimalesCSV(Zoo zoo, String fileName){
         try{
@@ -100,6 +91,7 @@ public class UtilArchivo {
                 Animal animal = new Animal(line[1], line[2], line[3], Boolean.parseBoolean(line[4]));
                 Jaula jaula = zoo.getJaulaFromZoo(codigoJaula);
                 jaula.addAnimalToJaula(animal);
+                zoo.addAnimal(animal, jaula); // FALTABA AÑADIR EL ANIMAL AL MAPA DE ANIMALES DEL ZOO, PORQUE SI NO, EL MAPA DE ANIMALES DEL ZOO SE QUEDARÍA VACÍO Y NO PODRÍAMOS BUSCAR ANIMALES POR CÓDIGOS DESDE EL ZOO.
                 animalLine = br.readLine();
             }    
             br.close();
@@ -154,7 +146,9 @@ public class UtilArchivo {
     public static boolean guardarZoologicoJSON(Zoo zoo, String fileName){
         try{
             FileWriter fw = new FileWriter(fileName);
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder() // En lugar de instanciar un Gson normal, instanciamos un GsonBuilder para poder configurar el formato del JSON que se va a generar. En este caso, queremos que el JSON tenga tabulaciones y saltos de línea para que sea más legible, por eso usamos el método setPrettyPrinting() del GsonBuilder.
+                        .setPrettyPrinting()
+                        .create();
             String zooJson = gson.toJson(zoo);
             fw.write(zooJson);
             fw.close();

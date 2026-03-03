@@ -45,7 +45,7 @@ public class Zoo implements Serializable { //implementamos esta interfaz para po
     public Jaula getJaulaFromZoo(String codigoJaula){
         return allJaulasMap.get(codigoJaula);
     }
-    // Override toString()
+    @Override
     public String toString(){ 
         return this.nombreZoo + "\n" 
         + ", --- LISTADO DE JAULAS ---\n"
@@ -85,15 +85,6 @@ public class Zoo implements Serializable { //implementamos esta interfaz para po
         
         allAnimalsMap.put(animal.getCodigoAnimal(), animal);
     }
-
-    // public List<Jaula> showJaulas(){ 
-    //     List<Jaula> list = new ArrayList<>();
-    //     for (Map.Entry<String,Jaula> entry : this.allJaulasMap.entrySet()){
-    //         Jaula jaula = entry.getValue();
-    //         list.add(jaula);
-    //     }
-    //     return list;
-    // }
 
     public String showJaulas(){
         String result = "";

@@ -1,0 +1,59 @@
+{
+  "allAnimalsMap": {
+    "m2": {
+      "codigoAnimal": "m2",
+      "nombreAnimal": "kingkong",
+      "especie": "mono",
+      "peligroso": false
+    },
+    "t2": {
+      "codigoAnimal": "t2",
+      "nombreAnimal": "tigressa",
+      "especie": "tigre",
+      "peligroso": false
+    }
+  },
+  "allJaulasMap": {
+    "j1": {
+      "codigoJaula": "j1",
+      "nombreJaula": "jaula de tigres",
+      "capacidadJaula": 6,
+      "tipoJaula": "felinos",
+      "listaAnimales": [
+        {
+          "codigoAnimal": "t2",
+          "nombreAnimal": "tigressa",
+          "especie": "tigre",
+          "peligroso": false
+        },
+        {
+          "codigoAnimal": "t2",
+          "nombreAnimal": "tigressa",
+          "especie": "tigre",
+          "peligroso": false
+        }
+      ]
+    },
+    "j2": {
+      "codigoJaula": "j2",
+      "nombreJaula": "jaula de monos",
+      "capacidadJaula": 15,
+      "tipoJaula": "primates",
+      "listaAnimales": [
+        {
+          "codigoAnimal": "m2",
+          "nombreAnimal": "kingkong",
+          "especie": "mono",
+          "peligroso": false
+        },
+        {
+          "codigoAnimal": "m2",
+          "nombreAnimal": "kingkong",
+          "especie": "mono",
+          "peligroso": false
+        }
+      ]
+    }
+  },
+  "nombreZoo": "Zoo_Donosti"
+}

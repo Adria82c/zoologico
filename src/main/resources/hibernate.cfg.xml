@@ -1,0 +1,26 @@
+<!-- hibernate.cfg.xml -->
+
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" " http://www.hibernate.org/dtd/hibernate-configuration.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- JDBC Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/zoologico</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">1234</property>
+        <property name="hibernate.connection.serverTimezone">UTC</property>
+        
+        <!-- Specify dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        
+        <!-- Echo all executed SQL to stdout --> <!-- todas las consultas SQL se mostrarán en la consola -->
+        <property name="hibernate.show_sql">true</property>
+        
+        <!-- Drop and re-create the database schema on startup --> <!-- actualiza el esquema de la base de datos cada vez que se inicia la aplicación -->
+        <property name="hibernate.hbm2ddl.auto">create</property> <!-- update: actualiza el esquema de la base de datos sin eliminar los datos existentes -->
+        <!-- create: elimina y vuelve a crear el esquema de la base de datos cada vez que se inicia la aplicación, lo que resulta en la pérdida de datos existentes -->        
+        
+        <!-- Mention annotated class -->
+        <mapping class="zoo.model.Animal"/>
+    </session-factory>
+</hibernate-configuration>

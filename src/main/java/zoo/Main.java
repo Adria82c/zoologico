@@ -1,11 +1,14 @@
 package zoo;
 
+
 import zoo.model.*;
 import zoo.tools.UtilArchivo;
 
 import java.util.Map;
 import java.util.Scanner;
 
+import org.hibernate.Session;
+import zoo.database.HibernateUtil;
 
 public class Main {
 
@@ -74,12 +77,41 @@ public class Main {
                 break;
                 case 11 : importarZooJSON();
                 break;
+                case 12 : database();
+                break;
                 case 0 : salir = true;
                 break;
                 default : System.out.println("Opcion incorrecta");
             }
 
         } while(!salir);
+    }
+
+    private static void database() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        
+        // Ejemplo de operaciones con Hibernate
+        Animal animal1 = new Animal();
+        animal1.setCodigoAnimal("a001");
+        animal1.setNombreAnimal("Tigre de Bengala");
+        animal1.setEspecie("Tigre");
+        animal1.setPeligroso(true);
+
+        // Guardar el animal en la base de datos y en el mapa de animales del zoo
+        session.save(animal1);
+        zoo.getAllAnimalsMap().put(animal1.getCodigoAnimal(), animal1); // Añadimos el animal al mapa de animales del zoo para que se muestre en el listado de animales del zoo, aunque realmente el animal ya estaría guardado en la base de datos, pero no en el mapa de animales del zoo, por lo que no se mostraría en el listado de animales del zoo.
+        
+        // Guardar todos los animales del mapa de animales del zoo en la base de datos, aunque realmente ya estarían guardados en la base de datos, pero no en el mapa de animales del zoo, por lo que no se mostrarían en el listado de animales del zoo.
+        for (Map.Entry<String, Animal> entry : zoo.getAllAnimalsMap().entrySet()) {
+            session.saveOrUpdate(entry.getValue()); 
+        }
+
+        // Commit de la transacción
+        session.getTransaction().commit();
+
+        // Cerrar la sesión de Hibernate
+        session.close();
     }
 
     private static void exportarZooJSON() {
@@ -319,6 +351,7 @@ public class Main {
             9 - IMPORTAR CSV
             10 - EXPORTAR JSON
             11 - IMPORTAR JSON
+            12 - BASE DE DATOS
             0 - SALIR              
         """);
         System.out.println("Seleccione una opción: ");

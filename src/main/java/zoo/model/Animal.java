@@ -2,9 +2,14 @@ package zoo.model;
 
 import java.io.Serializable;
 
-public class Animal implements Serializable {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Animal implements Serializable {
+    @Id
     private String codigoAnimal;
+
     private String nombreAnimal;
     private String especie;
     private boolean peligroso;
@@ -15,6 +20,9 @@ public class Animal implements Serializable {
         this.nombreAnimal = nombreAnimal;
         this.especie = especie;
         this.peligroso = peligroso;
+    }
+
+    public Animal() {
     }
 
     public String getCodigoAnimal() {
